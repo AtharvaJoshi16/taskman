@@ -6,3 +6,5 @@ spring:
 
   jpa.hibernate.ddl_auto : update
   jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
+security:
+  ignored: /**
