@@ -3,12 +3,11 @@ package com.api.taskman.epic.controller;
 import com.api.taskman.StatusCodes;
 import com.api.taskman.entity.Epic;
 import com.api.taskman.epic.model.EpicResponse;
+import com.api.taskman.epic.service.EpicService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,9 +15,16 @@ import java.util.List;
 @RequestMapping("/api/epic")
 public class EpicController {
 
+    @Autowired
+    EpicService epicService;
+
     @GetMapping
     public ResponseEntity<Object> getAllEpics(@RequestParam String userId) {
-        EpicResponse resp = new EpicResponse("DEMO", StatusCodes.OK, HttpStatus.OK, null, null);
-        return new ResponseEntity<>(resp, HttpStatus.OK);
+        return epicService.getAllEpicsOfUser(userId);
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> addEpic(@RequestParam String userId, @RequestBody Epic epic) {
+        return epicService.addEpic(userId, epic);
     }
 }

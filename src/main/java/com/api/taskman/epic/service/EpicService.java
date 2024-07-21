@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EpicService {
-    public ResponseEntity<Object> getAllEpicsOfUser(UUID userId);
-    public ResponseEntity<Object> getEpic(UUID userId, String epicId);
-    public ResponseEntity<Object> updateEpic(UUID userId, Epic epic);
-    public ResponseEntity<Object> deleteEpic(UUID userId, String epicId);
-    public ResponseEntity<Object> addEpic(UUID userId, Epic epic);
+    public ResponseEntity<Object> getAllEpicsOfUser(String userId);
+    public ResponseEntity<Object> getEpic(String userId, String epicId);
+    public ResponseEntity<Object> updateEpic(String userId, Epic epic);
+    public ResponseEntity<Object> deleteEpic(String userId, String epicId);
+    public ResponseEntity<Object> addEpic(String userId, Epic epic);
 }

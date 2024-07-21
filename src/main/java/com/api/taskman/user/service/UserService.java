@@ -7,5 +7,6 @@ import java.util.UUID;
 
 public interface UserService {
     public ResponseEntity<Object> registerUser(User user);
-    public ResponseEntity<Object> getUser(UUID userId);
+    public ResponseEntity<Object> getUserById(String userId);
+    public ResponseEntity<Object> getUserByUsername(String username);
 }

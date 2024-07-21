@@ -9,12 +9,53 @@ import java.util.List;
 
 public class UserResponse {
     private String message;
-    private StatusCodes code;
+    private int code;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getErr() {
+        return err;
+    }
+
+    public void setErr(String err) {
+        this.err = err;
+    }
+
     private HttpStatus status;
     private User user;
     private String err;
 
-    public UserResponse(String message,String err, StatusCodes code, HttpStatus status,  User user) {
+    public UserResponse(String message,String err, int code, HttpStatus status,  User user) {
         this.message = message;
         this.err = err;
         this.code = code;
