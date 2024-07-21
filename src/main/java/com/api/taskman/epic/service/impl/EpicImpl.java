@@ -38,17 +38,76 @@ public class EpicImpl implements EpicService {
 
     @Override
     public ResponseEntity<Object> getEpic(String userId, String epicId) {
-        return null;
+        Epic e = repo.findEpicByUserID(userId, epicId);
+        if(e==null) {
+            String errMessage = String.format("EPIC NOT FOUND WITH USER_ID: %s AND EPIC_ID: %s", userId, epicId);
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        } else {
+            EpicResponse res = new EpicResponse(null, HttpStatus.OK.value(), HttpStatus.OK, null, e, null);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        }
     }
 
     @Override
     public ResponseEntity<Object> updateEpic(String userId, Epic epic) {
-        return null;
+
+        User u = userRepo.findById(userId).orElse(null);
+        Epic e = repo.findEpicByUserID(userId, epic.getEpicId());
+
+        if(u==null) {
+            String errMessage = String.format("USER NOT FOUND WITH ID: %s", userId);
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        }
+
+        if(epic.getEpicId() == null) {
+            String errMessage = String.format("REQUEST BODY MUST CONTAIN epicId");
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        }
+
+        if(e==null) {
+            String errMessage = String.format("EPIC NOT FOUND WITH USER_ID: %s AND EPIC_ID: %s", userId, epic.getEpicId());
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        } else {
+            Epic updatedEpic = new Epic(epic);
+            updatedEpic.setEpicId(e.getEpicId());
+            updatedEpic.setCreatedAt(e.getCreatedAt());
+            updatedEpic.setUser(u);
+            repo.save(updatedEpic);
+            EpicResponse res = new EpicResponse("EPIC UPDATED", HttpStatus.CREATED.value(), HttpStatus.CREATED, null, null, null);
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        }
     }
 
     @Override
     public ResponseEntity<Object> deleteEpic(String userId, String epicId) {
-        return null;
+        User u = userRepo.findById(userId).orElse(null);
+        Epic e = repo.findEpicByUserID(userId, epicId);
+
+        if(u==null) {
+            String errMessage = String.format("USER NOT FOUND WITH ID: %s", userId);
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        }
+
+        if(epicId == null) {
+            String errMessage = String.format("EPIC NOT FOUND WITH ID: %s", epicId);
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        }
+
+        if(e==null) {
+            String errMessage = String.format("EPIC NOT FOUND WITH USER_ID: %s AND EPIC_ID: %s", userId, epicId);
+            EpicResponse res = new EpicResponse(null, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, null, null, errMessage);
+            return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        } else {
+            repo.deleteEpic(userId, epicId);
+            EpicResponse res = new EpicResponse(String.format("EPIC DELETED WITH ID: %s", epicId), HttpStatus.OK.value(), HttpStatus.OK, null, null, null);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        }
     }
 
     @Override

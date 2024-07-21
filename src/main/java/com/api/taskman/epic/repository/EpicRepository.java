@@ -8,6 +8,12 @@ import java.util.List;
 
 public interface EpicRepository extends JpaRepository<Epic, String> {
 
-    @Query("SELECT e FROM Epic e JOIN e.user u")
+    @Query("SELECT e FROM Epic e WHERE e.user.userId = :userId")
     List<Epic> findEpicsByUserID(String userId);
+
+    @Query("SELECT e from Epic e WHERE e.epicId=:epicId AND e.user.userId=:userId")
+    Epic findEpicByUserID(String userId, String epicId);
+
+    @Query("DELETE FROM Epic e WHERE e.epicId=:epicId AND e.user.userId=:userId")
+    void deleteEpic(String userId, String epicId);
 }
