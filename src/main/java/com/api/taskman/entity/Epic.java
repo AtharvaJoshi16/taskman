@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,6 +21,9 @@ public class Epic {
     @Column(columnDefinition = "TEXT",unique = true)
     private String title;
 
+    @Value("false")
+    private boolean completed;
+
     @OneToMany(mappedBy = "epic")
     private List<Task> tasks;
     @ManyToOne
@@ -32,6 +36,14 @@ public class Epic {
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
     public String getDescription() {
         return description;
@@ -99,9 +111,10 @@ public class Epic {
 
 
 
-    public Epic(String epicId, String epicImage, String title, String description, Timestamp createdAt, Timestamp updatedAt, List<Task> tasks, User user) {
+    public Epic(String epicId, String epicImage, String title, String description, Timestamp createdAt, Timestamp updatedAt, List<Task> tasks, User user, boolean completed) {
         this.epicId = epicId;
         this.epicImage = epicImage;
+        this.completed = completed;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
@@ -116,6 +129,7 @@ public class Epic {
     public Epic(Epic e) {
         this.epicId = e.epicId;
         this.epicImage = e.epicImage;
+        this.completed = e.completed;
         this.title = e.title;
         this.description = e.description;
         this.tasks = e.tasks;

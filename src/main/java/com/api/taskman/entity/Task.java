@@ -1,7 +1,11 @@
 package com.api.taskman.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -10,11 +14,47 @@ import java.util.UUID;
 @Entity
 @Table(name = "tasks")
 public class Task {
-    public UUID getTaskId() {
+
+    @Id
+    private String taskId;
+    private String taskImage;
+    @Column(columnDefinition = "TEXT", unique = true)
+    private String title;
+    @Lob
+    private String description;
+    @CreationTimestamp
+    private Timestamp createdAt;
+    @UpdateTimestamp
+    private Timestamp updatedAt;
+    @Value("1")
+    private int priority;
+    @Value("false")
+    private boolean starred;
+    private int eta;
+    private List<String> attachments;
+    private TaskStatus status;
+    @ManyToOne
+    @JoinColumn(name = "epicId")
+    @JsonIgnore
+    private Epic epic;
+    @OneToMany(mappedBy = "task")
+    private List<Subtask> subtasks;
+    @Value("false")
+    private boolean completed;
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(UUID taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
@@ -114,7 +154,27 @@ public class Task {
         this.subtasks = subtasks;
     }
 
-    public Task(UUID taskId, String taskImage, String title, String description, Timestamp createdAt, Timestamp updatedAt, int priority, boolean starred, int eta, List<String> attachments, TaskStatus status, Epic epic, List<Subtask> subtasks) {
+    public Task() {
+    }
+
+    public Task(Task task) {
+        this.taskId = task.taskId;
+        this.taskImage = task.taskImage;
+        this.title = task.title;
+        this.description = task.description;
+        this.createdAt = task.createdAt;
+        this.updatedAt = task.updatedAt;
+        this.priority = task.priority;
+        this.starred = task.starred;
+        this.eta = task.eta;
+        this.attachments = task.attachments;
+        this.status = task.status;
+        this.epic = task.epic;
+        this.subtasks = task.subtasks;
+        this.completed = task.completed;
+    }
+
+    public Task(String taskId, String taskImage, String title, String description, Timestamp createdAt, Timestamp updatedAt, int priority, boolean starred, int eta, List<String> attachments, TaskStatus status, Epic epic, List<Subtask> subtasks, boolean completed) {
         this.taskId = taskId;
         this.taskImage = taskImage;
         this.title = title;
@@ -128,26 +188,8 @@ public class Task {
         this.status = status;
         this.epic = epic;
         this.subtasks = subtasks;
+        this.completed = completed;
     }
 
-    @Id
-    @GeneratedValue
-    private UUID taskId;
-    private String taskImage;
-    @Column(columnDefinition = "TEXT", unique = true)
-    private String title;
-    @Lob
-    private String description;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
-    private int priority;
-    private boolean starred;
-    private int eta;
-    private List<String> attachments;
-    private TaskStatus status;
-    @ManyToOne
-    @JoinColumn(name = "epicId")
-    private Epic epic;
-    @OneToMany(mappedBy = "task")
-    private List<Subtask> subtasks;
+
 }

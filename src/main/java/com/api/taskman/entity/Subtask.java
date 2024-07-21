@@ -12,16 +12,25 @@ import java.util.UUID;
 public class Subtask {
 
     @Id
-    @GeneratedValue
-    private UUID subtaskId;
+    private String subtaskId;
     @Column(columnDefinition = "TEXT", unique = true)
     private String title;
+    private Timestamp updatedAt;
+    private int priority;
+    private int eta;
+    private TaskStatus status;
+    @ManyToOne
+    @JoinColumn(name = "taskId")
+    private Task task;
+    @Lob
+    private String description;
+    private Timestamp createdAt;
 
-    public UUID getSubtaskId() {
+    public String getSubtaskId() {
         return subtaskId;
     }
 
-    public void setSubtaskId(UUID subtaskId) {
+    public void setSubtaskId(String subtaskId) {
         this.subtaskId = subtaskId;
     }
 
@@ -89,11 +98,9 @@ public class Subtask {
         this.task = task;
     }
 
-    @Lob
-    private String description;
-    private Timestamp createdAt;
 
-    public Subtask(UUID subtaskId, String title, String description, Timestamp createdAt, Timestamp updatedAt, int priority, int eta, TaskStatus status, Task task) {
+
+    public Subtask(String subtaskId, String title, String description, Timestamp createdAt, Timestamp updatedAt, int priority, int eta, TaskStatus status, Task task) {
         this.subtaskId = subtaskId;
         this.title = title;
         this.description = description;
@@ -105,11 +112,5 @@ public class Subtask {
         this.task = task;
     }
 
-    private Timestamp updatedAt;
-    private int priority;
-    private int eta;
-    private TaskStatus status;
-    @ManyToOne
-    @JoinColumn(name = "taskId")
-    private Task task;
+
 }

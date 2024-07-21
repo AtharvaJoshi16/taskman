@@ -37,7 +37,7 @@ public class EpicController {
     }
 
     @DeleteMapping(params = {"userId", "epicId"})
-    public ResponseEntity<Object> updateEpic(@RequestParam String userId, @RequestParam String epicId) {
+    public ResponseEntity<Object> deleteEpic(@RequestParam String userId, @RequestParam String epicId) {
         return epicService.deleteEpic(userId, epicId);
     }
 }
