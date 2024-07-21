@@ -27,4 +27,14 @@ public class TaskController {
     public ResponseEntity<Object> addTask(@RequestParam String epicId, @RequestBody Task task) {
         return service.addTask(epicId, task);
     }
+
+    @PutMapping
+    public ResponseEntity<Object> updateTask(@RequestParam String epicId, @RequestBody Task task) {
+        return service.updateTask(epicId, task);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Object> deleteTask(@RequestParam String epicId, @RequestParam String taskId) {
+        return service.deleteTask(epicId, taskId);
+    }
 }
