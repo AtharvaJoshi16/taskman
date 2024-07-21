@@ -6,3 +6,9 @@ spring:
 
   jpa.hibernate.ddl_auto : update
   jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
+
+springdoc:
+  api-docs:
+    path: /api-docs
+springdoc-swagger-ui:
+  path: /swagger-ui.html
