@@ -1,29 +1,31 @@
-package com.api.taskman.epic.model;
+package com.api.taskman.subtask.model;
 
-import com.api.taskman.StatusCodes;
 import com.api.taskman.entity.Epic;
+import com.api.taskman.entity.Subtask;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public class EpicResponse {
+public class SubtaskResponse {
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
     private int code;
     private HttpStatus status;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Epic> epics;
+    private List<Subtask> subtasks;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Epic epic;
+    private Subtask subtask;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String err;
 
-    public String getErr() {
-        return err;
-    }
-
-    public void setErr(String err) {
+    public SubtaskResponse(String message, int code, HttpStatus status, List<Subtask> subtasks, Subtask subtask, String err) {
+        this.message = message;
+        this.code = code;
+        this.status = status;
+        this.subtasks = subtasks;
+        this.subtask = subtask;
         this.err = err;
     }
 
@@ -51,28 +53,27 @@ public class EpicResponse {
         this.status = status;
     }
 
-    public List<Epic> getEpics() {
-        return epics;
+    public List<Subtask> getSubtasks() {
+        return subtasks;
     }
 
-    public void setEpics(List<Epic> epics) {
-        this.epics = epics;
+    public void setSubtasks(List<Subtask> subtasks) {
+        this.subtasks = subtasks;
     }
 
-    public Epic getEpic() {
-        return epic;
+    public Subtask getSubtask() {
+        return subtask;
     }
 
-    public void setEpic(Epic epic) {
-        this.epic = epic;
+    public void setSubtask(Subtask subtask) {
+        this.subtask = subtask;
     }
 
-    public EpicResponse(String message, int code, HttpStatus status, List<Epic> epics, Epic epic, String err) {
-        this.message = message;
-        this.code = code;
-        this.status = status;
-        this.epics = epics;
-        this.epic = epic;
+    public String getErr() {
+        return err;
+    }
+
+    public void setErr(String err) {
         this.err = err;
     }
 }

@@ -1,7 +1,11 @@
 package com.api.taskman.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -15,15 +19,19 @@ public class Subtask {
     private String subtaskId;
     @Column(columnDefinition = "TEXT", unique = true)
     private String title;
+    @UpdateTimestamp
     private Timestamp updatedAt;
+    @Value("1")
     private int priority;
     private int eta;
     private TaskStatus status;
     @ManyToOne
     @JoinColumn(name = "taskId")
+    @JsonIgnore
     private Task task;
     @Lob
     private String description;
+    @CreationTimestamp
     private Timestamp createdAt;
 
     public String getSubtaskId() {
@@ -98,7 +106,9 @@ public class Subtask {
         this.task = task;
     }
 
+    public Subtask() {
 
+    }
 
     public Subtask(String subtaskId, String title, String description, Timestamp createdAt, Timestamp updatedAt, int priority, int eta, TaskStatus status, Task task) {
         this.subtaskId = subtaskId;
@@ -110,6 +120,18 @@ public class Subtask {
         this.eta = eta;
         this.status = status;
         this.task = task;
+    }
+
+    public Subtask(Subtask subtask) {
+        this.subtaskId = subtask.subtaskId;
+        this.title = subtask.title;
+        this.description = subtask.description;
+        this.createdAt = subtask.createdAt;
+        this.updatedAt = subtask.updatedAt;
+        this.priority = subtask.priority;
+        this.eta = subtask.eta;
+        this.status = subtask.status;
+        this.task = subtask.task;
     }
 
 

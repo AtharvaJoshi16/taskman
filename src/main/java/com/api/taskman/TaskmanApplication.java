@@ -7,9 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class TaskmanApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(TaskmanApplication.class, args);
 	}
-
 }
